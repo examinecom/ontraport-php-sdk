@@ -1,0 +1,25 @@
+{
+    "name": "kzap/ontraport-php-sdk",
+    "type": "library",
+    "description": "Ontraport PHP SDK",
+    "keywords": ["ontraport", "php-sdk", "ontraport-sdk"],
+    "homepage": "http://github.com/kzap/ontraport-php-sdk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andre Marcelo-Tanner",
+            "email": "andre@enthropia.com",
+            "homepage": "http://github.com/kzap/ontraport-php-sdk"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "~5.3",
+    },
+    "autoload": {
+        "psr-4": { "Ontraport\\Api\\": "" }
+    },
+    "minimum-stability": "dev"
+}
