@@ -914,7 +914,7 @@ class Sdk
         return $response->json();
     }
 
-    private function getObjectTypeByName($name)
+    public function getObjectTypeByName($name)
     {
 
         // sanitize name
