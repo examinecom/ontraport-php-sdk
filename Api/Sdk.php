@@ -2,6 +2,7 @@
 
 namespace Kzap\Ontraport\Api;
 
+use Exception;
 use GuzzleHttp\Client;
 
 /**
@@ -24,8 +25,10 @@ class Sdk
         14 => 'Tag',
         16 => 'Product',
         17 => 'Purchase',
+        46 => 'Invoice',
         63 => 'Taxes',
         64 => 'Shipping',
+        70 => 'Gateway',
     );
 
     /* Magic Methods
@@ -68,7 +71,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -122,7 +125,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -166,7 +169,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -229,7 +232,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -284,7 +287,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         
@@ -329,7 +332,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -392,7 +395,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
@@ -455,7 +458,7 @@ class Sdk
             $objectTypeId = $params['object_type_id'];
         }
         // get objectTypeId by objectID
-        if (isset($params['objectID']) && isset($this->objectTypeIds[$params['objectID']])) {
+        if (isset($params['objectID'])) {
             $objectTypeId = $params['objectID'];
         }
         if (is_null($objectTypeId) || $objectTypeId === false) {
