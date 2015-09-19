@@ -33,18 +33,22 @@ Generating autoload files
 
 ## How to use
 1. Make sure you are auto-loading Composer in your bootstrap file or main php file:
+
 	```php
 require_once __DIR__ . '/vendor/autoload.php';
 	```
 2. In your class or PHP file, include the namespace of the class:
+
 	```php
 use Kzap\Ontraport\Api\Sdk as OntraportSdk;
 	```
 3. In your constructor or wherever you want to instantiate / use the API, create a new instance of the class and use your **APP_ID** and **API_KEY** as the parameters:
+
 	```php
 $this->ontraportSdk = new OntraportSdk("{APP_ID}", "{API_KEY}");
 	```
 4. Call one of the methods in **Sdk.php** to access the API:
+
     ```php
 $parameters = array(
 	'objectId' => $this->ontraportSdk->getObjectTypeByName('contact'),
@@ -53,15 +57,16 @@ $jsonResponse = $this->ontraportSdk->getObject($parameters);
 var_dump($jsonResponse);
     ```
 
-**Sample Code**
-	```php
+## Sample code
+
+```php
 <?php
 
 namespace App;
 
 use Kzap\Ontraport\Api\Sdk as OntraportSdk;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 class OntraportApp
 {
@@ -73,7 +78,7 @@ class OntraportApp
     {
         $this->ontraportSdk = new OntraportSdk($appId, $apiKey);
     }
-
+    
     public function getContacts()
     {
         $parameters = array(
@@ -89,4 +94,4 @@ $ontraportApp = new OntraportApp("APP_ID", "API_KEY");
 $contacts = $ontraportApp->getContacts();
 var_dump($contacts);
 
-	```
+```
