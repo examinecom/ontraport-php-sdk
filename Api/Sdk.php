@@ -319,69 +319,6 @@ class Sdk
      *
      * @return scalar json response
      */
-    public function getObjectTags($params = array())
-    {
-        // get and validate objectTypeId
-        $objectTypeId = false;
-        // get objectTypeId by object_type_name
-        if (isset($params['object_type_name'])) {
-            $objectTypeId = $this->getObjectTypeByName($params['object_type_name']);
-        }
-        // get objectTypeId by object_type_id
-        if (isset($params['object_type_id']) && isset($this->objectTypeIds[$params['object_type_id']])) {
-            $objectTypeId = $params['object_type_id'];
-        }
-        // get objectTypeId by objectID
-        if (isset($params['objectID'])) {
-            $objectTypeId = $params['objectID'];
-        }
-        if (is_null($objectTypeId) || $objectTypeId === false) {
-            throw new Exception(__METHOD__.' needs a valid Object Type ID');
-        }
-
-        $request = $this->client->createRequest('GET', 'objects/tag');
-        $query = $request->getQuery();
-        $query->set('objectID', (int) $objectTypeId);
-        if (isset($params['ids'])) {
-            if (is_array($params['ids'])) {
-                $query->set('ids', implode(',', $params['ids']));
-            } else {
-                $query->set('ids', $params['ids']);
-            }
-        }
-        if (isset($params['start'])) {
-            $query->set('start', $params['start']);
-        }
-        if (isset($params['range'])) {
-            $query->set('range', $params['range']);
-        }
-        if (isset($params['condition'])) {
-            if (is_array($params['condition'])) {
-                $query->set('condition', '('.implode(') AND (', $params['condition']).')');
-            } else {
-                $query->set('condition', $params['condition']);
-            }
-        }
-
-        try {
-            $response = $this->client->send($request);
-        } catch (RequestException $e) {
-            //echo $e->getRequest() . "\n";
-            if ($e->hasResponse()) {
-                //echo $e->getResponse() . "\n";
-            }
-        }
-
-        return $response->json();
-    }
-
-    /**
-     * Uses New API.
-     *
-     * @param array parameters
-     *
-     * @return scalar json response
-     */
     public function updateObjectTags($params = array())
     {
         // get and validate objectTypeId
@@ -561,6 +498,27 @@ class Sdk
     public function taskCancel($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('POST', 'task/cancel', ['body' => $body]);
         
         try {
@@ -585,6 +543,27 @@ class Sdk
     public function taskComplete($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('POST', 'task/complete', ['body' => $body]);
         
         try {
@@ -609,6 +588,18 @@ class Sdk
     public function createTransaction($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        foreach ($params as $fieldName => $fieldValue) {
+            $paramsToIgnore = array(
+                'objectID',
+                'id',
+                'object_type_name',
+                'object_type_id',
+            );
+            if (!in_array($fieldName, $paramsToIgnore)) {
+                $body[$fieldName] = $fieldValue;
+            }
+        }
         $request = $this->client->createRequest('POST', 'transaction/processManual', ['body' => $body]);
 
         try {
@@ -633,6 +624,27 @@ class Sdk
     public function refundTransaction($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('PUT', 'transaction/refund', ['body' => $body]);
 
         try {
@@ -707,6 +719,27 @@ class Sdk
     public function voidTransaction($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('PUT', 'transaction/void', ['body' => $body]);
 
         try {
@@ -756,6 +789,27 @@ class Sdk
     public function rerunTransactionCommission($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('PUT', 'transaction/rerunCommission', ['body' => $body]);
         
         try {
@@ -805,6 +859,27 @@ class Sdk
     public function rerunTransaction($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        if (isset($params['ids'])) {
+            if (is_array($params['ids'])) {
+                $body['ids'] = implode(',', $params['ids']);
+            } else {
+                $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['start'])) {
+            $body['start'] = $params['start'];
+        }
+        if (isset($params['range'])) {
+            $body['range'] = $params['range'];
+        }
+        if (isset($params['condition'])) {
+            if (is_array($params['condition'])) {
+                $body['condition'] = '('.implode(') AND (', $params['condition']).')';
+            } else {
+                $body['condition'] = $params['condition'];
+            }
+        }
         $request = $this->client->createRequest('POST', 'transaction/rerun', ['body' => $body]);
 
         try {
@@ -879,6 +954,18 @@ class Sdk
     public function updateTransaction($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        foreach ($params as $fieldName => $fieldValue) {
+            $paramsToIgnore = array(
+                'objectID',
+                'id',
+                'object_type_name',
+                'object_type_id',
+            );
+            if (!in_array($fieldName, $paramsToIgnore)) {
+                $body[$fieldName] = $fieldValue;
+            }
+        }
         $request = $this->client->createRequest('PUT', 'transaction/order', ['body' => $body]);
         
         try {
@@ -903,6 +990,18 @@ class Sdk
     public function resendTransactionInvoice($params = array())
     {
         $body = array();
+        $body['objectID'] = 0;
+        foreach ($params as $fieldName => $fieldValue) {
+            $paramsToIgnore = array(
+                'objectID',
+                'id',
+                'object_type_name',
+                'object_type_id',
+            );
+            if (!in_array($fieldName, $paramsToIgnore)) {
+                $body[$fieldName] = $fieldValue;
+            }
+        }
         $request = $this->client->createRequest('POST', 'transaction/resendInvoice', ['body' => $body]);
 
         try {
