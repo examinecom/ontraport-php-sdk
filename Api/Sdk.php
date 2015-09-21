@@ -268,6 +268,78 @@ class Sdk
     }
 
     /**
+     * Convenience Method
+     * Insert or Update Object based on Distinct properties
+     *
+     * @param array parameters
+     *
+     * @return scalar json response
+     */
+    public function upsertObject($params = array(), $distinctFields = array())
+    {
+        // get and validate objectTypeId
+        $objectTypeId = false;
+        // get objectTypeId by object_type_name
+        if (isset($params['object_type_name'])) {
+            $objectTypeId = $this->getObjectTypeByName($params['object_type_name']);
+        }
+        // get objectTypeId by object_type_id
+        if (isset($params['object_type_id']) && isset($this->objectTypeIds[$params['object_type_id']])) {
+            $objectTypeId = $params['object_type_id'];
+        }
+        // get objectTypeId by objectID
+        if (isset($params['objectID'])) {
+            $objectTypeId = $params['objectID'];
+        }
+        if (is_null($objectTypeId) || $objectTypeId === false) {
+            throw new Exception(__METHOD__.' needs a valid Object Type ID');
+        }
+
+        $distinctFields = (array) $distinctFields;
+        if (is_null($distinctFields) || empty($distinctFields)) {
+            throw new Exception(__METHOD__.' needs a $distinctFields to contain atleast 1 distinct field');
+        }
+
+        // search for matching object
+        $searchParams = array(
+            'objectID' => $objectTypeId,
+            'condition' => array(),
+        );
+        foreach ($distinctFields as $distinctField) {
+            if (isset($params[$distinctField])) {
+                $searchParams['condition'][] = $distinctField . '="' . $params[$distinctField] . '"';
+            } else {
+                throw new Exception('Distinct Field value of [' . $distinctField . '] not found in $params');
+            }
+        }
+        $searchResponse = $this->getObjects($searchParams);
+        
+        if (isset($searchResponse['data']) && !empty($searchResponse['data'])) {
+            // if we found an object, update it
+            $updateParams = $params;
+            $updateParams['id'] = $searchResponse['data'][0]['id'];
+            $updateResponse = $this->updateObject($updateParams);
+            
+            // return found data
+            if (isset($updateResponse['data']) && !empty($updateResponse['data'])) {
+                return $updateResponse['data'];
+            } else {
+                return $searchResponse['data'][0];
+            }
+        } else {
+            // we didnt find an object, so lets insert
+            $createParams = $params;
+            $createResponse = $this->createObject($createParams);
+            if (isset($createResponse['data']) && !empty($createResponse['data'])) {
+                // return found id
+                return $createResponse['data'];
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Uses New API.
      *
      * @param array parameters
