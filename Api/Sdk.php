@@ -321,8 +321,8 @@ class Sdk
             $updateResponse = $this->updateObject($updateParams);
             
             // return found data
-            if (isset($updateResponse['data']) && !empty($updateResponse['data'])) {
-                return $updateResponse['data'];
+            if (isset($updateResponse['data']['attrs']) && !empty($updateResponse['data']['attrs'])) {
+                return array_merge((array) $searchResponse['data'][0], (array) $updateResponse['data']['attrs']);
             } else {
                 return $searchResponse['data'][0];
             }
