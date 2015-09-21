@@ -275,7 +275,7 @@ class Sdk
      *
      * @return scalar json response
      */
-    public function upsertObject($params = array(), $distinctFields = array())
+    public function upsertObject($params = array(), $distinctFields = array(), $idField = 'id')
     {
         // get and validate objectTypeId
         $objectTypeId = false;
@@ -317,7 +317,7 @@ class Sdk
         if (isset($searchResponse['data']) && !empty($searchResponse['data'])) {
             // if we found an object, update it
             $updateParams = $params;
-            $updateParams['id'] = $searchResponse['data'][0]['id'];
+            $updateParams['id'] = $searchResponse['data'][0][$idField];
             $updateResponse = $this->updateObject($updateParams);
             
             // return found data
@@ -420,6 +420,13 @@ class Sdk
                 $body['ids'] = $params['ids'];
             }
         }
+        if (isset($params['add_list'])) {
+            if (is_array($params['add_list'])) {
+                $body['add_list'] = implode(',', $params['add_list']);
+            } else {
+                $body['add_list'] = $params['add_list'];
+            }
+        }
         if (isset($params['start'])) {
             $body['start'] = $params['start'];
         }
@@ -481,6 +488,13 @@ class Sdk
                 $body['ids'] = implode(',', $params['ids']);
             } else {
                 $body['ids'] = $params['ids'];
+            }
+        }
+        if (isset($params['remove_list'])) {
+            if (is_array($params['remove_list'])) {
+                $body['remove_list'] = implode(',', $params['remove_list']);
+            } else {
+                $body['remove_list'] = $params['remove_list'];
             }
         }
         if (isset($params['start'])) {
