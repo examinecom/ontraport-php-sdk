@@ -21,8 +21,17 @@ class Sdk
     public $objectTypeIds = array(
         0 => 'Contact',
         2 => 'Staff',
+        3 => 'Unknown1',
+        4 => 'Sent', // sent emails
+        5 => 'Sequence',
+        6 => 'Rules',
+        7 => 'Sequence Sent', // sent emails from sequences
+        8 => 'Sequence Contact Stats', // sent emails from sequences
+        9 => 'Sequence Message Stats', // sent emails from sequences
         12 => 'Note',
+        13 => 'Unknown2',
         14 => 'Tag',
+        15 => 'Stats', // email opens and clicks i think 
         16 => 'Product',
         17 => 'Purchase',
         46 => 'Invoice',
