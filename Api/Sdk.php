@@ -35,6 +35,7 @@ class Sdk
         16 => 'Product',
         17 => 'Purchase',
         46 => 'Invoice',
+        52 => 'Open Orders',
         63 => 'Taxes',
         64 => 'Shipping',
         70 => 'Gateway',
@@ -206,6 +207,22 @@ class Sdk
                 $query->set('condition', '('.implode(') AND (', $params['condition']).')');
             } else {
                 $query->set('condition', $params['condition']);
+            }
+        }
+        // add other params
+        foreach ($params as $fieldName => $fieldValue) {
+            $paramsToIgnore = array(
+                'objectID',
+                'id',
+                'ids',
+                'object_type_name',
+                'object_type_id',
+                'start',
+                'range',
+                'condition',
+            );
+            if (!in_array($fieldName, $paramsToIgnore)) {
+                $query->set($fieldName, $fieldValue);
             }
         }
 
